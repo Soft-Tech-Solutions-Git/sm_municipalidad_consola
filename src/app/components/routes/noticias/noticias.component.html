@@ -1,1 +1,64 @@
-<p>noticias works!</p>
+<div id="imageContainer">
+    <div class="imagePreview border-[0.1px] border-[#babdc4] rounded-md flex justify-center items-center"
+        id="imagePreview1" (click)="selectImage(1)">
+        <span *ngIf="!imagePreviews[0]" class="font-semibold">Seleccionar Imagen 1</span>
+        <img *ngIf="imagePreviews[0]" [src]="imagePreviews[0]" alt="Preview 1">
+    </div>
+    <div class="imagePreview border-[0.1px] border-[#babdc4] rounded-md flex justify-center items-center"
+        id="imagePreview2" (click)="selectImage(2)">
+        <span *ngIf="!imagePreviews[1]" class="font-semibold">Seleccionar Imagen 2</span>
+        <img *ngIf="imagePreviews[1]" [src]="imagePreviews[1]" alt="Preview 2">
+    </div>
+    <div class="imagePreview border-[0.1px] border-[#babdc4] rounded-md flex justify-center items-center"
+        id="imagePreview3" (click)="selectImage(3)">
+        <span *ngIf="!imagePreviews[2]" class="font-semibold">Seleccionar Imagen 3</span>
+        <img *ngIf="imagePreviews[2]" [src]="imagePreviews[2]" alt="Preview 3">
+    </div>
+</div>
+
+
+
+<form class="pb-5" autocomplete="off" [formGroup]="miFormulario" (ngSubmit)="onSubmit()" method="post">
+    <input type="file" id="fileInput1" accept="image/*" (change)="previewImage($event, 1)">
+    <input type="file" id="fileInput2" accept="image/*" (change)="previewImage($event, 2)">
+    <input type="file" id="fileInput3" accept="image/*" (change)="previewImage($event, 3)">
+    <br>
+
+    <div class="flex flex-col justify-center items-center">
+        <div class="py-4">
+            <div class="flex justify-between">
+                <div class="mb-4">
+                    <span class="bg-[#F3F4F6] rounded-md font-semibold p-2">Título</span>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <input placeholder="Título..." type="text"
+                    class="p-2 focus:outline-5 focus:outline-blue-300 border-[0.1px] resize-none border-[#babdc4] rounded-md w-[60vw]"
+                    formControlName="titulo" name="titulo">
+                <span style="color: red;" class="pt-3 font-semibold" *ngIf="campoEsValido('titulo')">
+                    Es un campo obligatorio
+                </span>
+            </div>
+        </div>
+        <div class="py-4">
+            <div class="flex justify-between">
+                <div class="mb-4">
+                    <span class="bg-[#F3F4F6] rounded-md font-semibold p-2">Texto de la noticia</span>
+                </div>
+            </div>
+            <div class="flex flex-col">
+                <textarea placeholder="Escribe..."
+                    class="p-2 focus:outline-1 focus:outline-blue-300 border-[0.1px] resize-none h-[200px] border-[#babdc4] rounded-md w-[60vw]"
+                    formControlName="descripcion" name="descripcion"></textarea>
+                <span style="color: red;" class="pt-3 font-semibold" *ngIf="campoEsValido('descripcion')">
+                    Es un campo obligatorio
+                </span>
+            </div>
+
+            <div class="pt-5">
+                <button [disabled]="miFormulario.invalid"
+                    class="text-sm font-semibold absolute bg-[#4F46E5] w-fit text-white py-2 rounded px-3">Enviar</button>
+            </div>
+        </div>
+    </div>
+</form>
