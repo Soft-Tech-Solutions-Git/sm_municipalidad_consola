@@ -11,47 +11,47 @@ import { AmbienteComponent } from './components/routes/ambiente/ambiente.compone
 import { TurismoComponent } from './components/routes/turismo/turismo.component';
 
 const routes: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'ministerios',
-    component: MinisteriosComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'noticias',
-    component: NoticiasComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'ambiente',
-    component: AmbienteComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'turismo',
-    component: TurismoComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: '',
-    component: LoginComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-  {
-    path: '**',
-    component: LoginComponent,
-  },
+    {
+        path: 'home',
+        component: HomeComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'ministerios',
+        component: MinisteriosComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'noticias',
+        component: NoticiasComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'ambiente',
+        component: AmbienteComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: 'turismo',
+        component: TurismoComponent,
+        canActivate: [AuthGuard],
+    },
+    {
+        path: '',
+        component: LoginComponent,
+    },
+    {
+        path: 'login',
+        component: LoginComponent,
+    },
+    {
+        path: '**',
+        component: LoginComponent,
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
 export class AppRoutingModule { }

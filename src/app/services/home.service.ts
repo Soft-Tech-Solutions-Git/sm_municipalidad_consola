@@ -1,17 +1,13 @@
 import {
     HttpClient,
     HttpErrorResponse,
-    HttpHeaders,
     HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 
-interface News {
-    title: string;
-    caption: string;
-    images: File[];
-}
+import { ShowtoastrService } from './showtoastr.service';
+import { Slider } from '../interfaces/send_news_slider';
 
 @Injectable({
     providedIn: 'root',
@@ -19,55 +15,37 @@ interface News {
 export class HomeService {
     private apiUrl = 'https://your-api-endpoint.com/news';
 
-    constructor(private http: HttpClient) { }
+    constructor(private _http: HttpClient, private _toastr: ShowtoastrService) { }
 
-    // sendNews(news: News): Observable<any> {
-    //     const formData = new FormData();
-    //     formData.append('title', news.title);
-    //     formData.append('caption', news.caption);
-    //     news.images.forEach((image, index) => {
-    //         formData.append(`image${index + 1}`, image);
-    //     });
-
-    //     const headers = new HttpHeaders({
-    //         // 'Content-Type': 'multipart/form-data' // No se necesita, Angular lo maneja automáticamente
-    //     });
-
-    //     return this.http
-    //         .post<any>(this.apiUrl, formData, { headers, observe: 'response' })
-    //         .pipe(
-    //             map((response: HttpResponse<any>) => {
-    //                 if (response.status === 200) {
-    //                     // Respuesta exitosa
-    //                     return response.body;
-    //                 } else {
-    //                     throw new Error(
-    //                         `Error inesperado con código de estado: ${response.status}`
-    //                     );
-    //                 }
-    //             }),
-    //             catchError((error: HttpErrorResponse) => {
-    //                 // Manejo de errores
-    //                 if (error.status === 404) {
-    //                     console.error('Recurso no encontrado (404).');
-    //                     return of({
-    //                         success: false,
-    //                         message: 'Recurso no encontrado (404).',
-    //                     });
-    //                 } else {
-    //                     console.error('Ocurrió un error:', error);
-    //                     return of({ success: false, message: 'Error en la solicitud' });
-    //                 }
-    //             })
-    //         );
-    // }
-
-    sendSlider(data: { images: File[] }): Observable<any> {
+    sendSlider(slider: Slider): Observable<any> {
         const formData = new FormData();
-        data.images.forEach((image, index) => {
+        formData.append('subtitulo', slider.subtitulo);
+        slider.images.forEach((image, index) => {
             formData.append(`image${index + 1}`, image, image.name);
         });
 
-        return this.http.post(`${this.apiUrl}/news`, formData);
+        return this._http.post<any>(this.apiUrl, formData, { observe: 'response' })
+            .pipe(
+                map((response: HttpResponse<any>) => {
+                    if (response.status === 200) {
+                        // Respuesta exitosa
+                        return response.body;
+                    } else {
+                        throw new Error(`Error inesperado con código de estado: ${response.status}`);
+                    }
+                }),
+                catchError((error: HttpErrorResponse) => {
+                    // Manejo de errores
+                    if (error.status === 404) {
+                        this._toastr.showNotification('Error (404)', 'Recurso no encontrado', 'error')
+                        return of({ success: false, message: 'Recurso no encontrado (404).', });
+                    } else {
+                        this._toastr.showNotification('Ocurrió un error', error.message, 'error')
+                        return of({ success: false, message: 'Error en la solicitud' });
+                    }
+                })
+            )
     }
+
+    sendStory() { }
 }

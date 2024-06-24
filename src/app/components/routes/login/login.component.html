@@ -2,7 +2,7 @@
     <div class="login-card">
         <h2>Iniciar Sesión</h2>
         <h3>Ingresa tus credenciales</h3>
-        <form (ngSubmit)="Ingresar()" autocomplete="off" [formGroup]="miFormulario" class="login-form">
+        <form (ngSubmit)="ingresar()" autocomplete="off" [formGroup]="miFormulario" class="login-form">
             <input type="email" id="" placeholder="Email" autocomplete="off" formControlName="email" name="email">
             <span style="color: red; font-size: 13px;" class="form-text text-danger font-semibold text-start" *ngIf="campoEsValido('email')">
                 No es un email válido
